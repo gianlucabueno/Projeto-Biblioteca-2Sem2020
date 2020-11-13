@@ -34,8 +34,13 @@ typedef struct aluno{
 
 void aloca_aluno(aluno **p, int tamanho);
 void aloca_livro(livro **p, int tamanho);
-void cadastra_livro(livro *p, int tamanho);
-void cadastra_aluno(aluno *p, int tamanho);
+void cadastra_livro(livro *p_livros, int tamanho);
+void cadastra_aluno(aluno *p_alunos, int tamanho);
+void consulta_alunototal();
+void consulta_alunoparcial();
+void consulta_livrototal();
+void consulta_livrostatus();
+void consulta_livroautor();
 
 void main(){
     aluno *alunos = NULL;    
@@ -82,14 +87,31 @@ void main(){
                         flush(stdin);
                         switch(opcao){
                             case 1:
-                                
-                                break
+                                system("cls");
+                                if()
+                                    consulta_alunototal();
+                               else{
+                                    printf("Nao existem alunos cadastrados\n");
+                                    printf("Por Favor Cadastre alunos antes de fazer a verificacao");
+                                    opcao = 4;
+                                }
+                                break;
                             case 2:
-
-                                break
+                                system("cls");
+                                if()
+                                    consulta_alunototal();
+                               else{
+                                    printf("Nao existem alunos cadastrados\n");
+                                    printf("Por Favor Cadastre alunos antes de fazer a verificacao");
+                                    opcao = 4;
+                                }
+                                break;
                             case 3: 
-
-                                break
+                                printf("\n\nRetornado ao menu\n");                
+                                break;            
+                                default:                
+                                    printf("\nOpcao nao reconhecida!");
+                               
                         }
                 break
             case 3:
@@ -101,7 +123,7 @@ void main(){
                         [1] Sim;\n
                         [2] Nao;\n");
                 }while((opcao != 2);
-                break
+                break;
             case 4:
                 saida = 0;
                 do{
@@ -115,8 +137,9 @@ void main(){
                 
                     switch(opcao){
                             case 1:
+                                system("cls");
                                 if(){
-
+                                    consulta_livrototal();
                                 }
                                 else{
                                     printf("Nao existem alunos cadastrados\n");
@@ -125,20 +148,22 @@ void main(){
                                 }
 
 
-                                break
+                                break;
                             case 2:
+                                system("cls");
                                 if(){
-
+                                    
+                                    consulta_livrostatus();
                                 }
                                 else{
                                     printf("Nao existem alunos cadastrados\n");
                                     printf("Por Favor Cadastre alunos antes de fazer a verificacao");
                                    opcao = 4; 
                                 }
-                                break
+                                break;
                             case 3:
                                 if(){
-
+                                    consulta_livroautor();
                                 }
                                 else{
                                     printf("Nao existem alunos cadastrados\n");
@@ -147,14 +172,16 @@ void main(){
                                 }
                                 break    
                             case 4:
+                                printf("\n\nRetornado ao menu\n");                
+                                break;            
+                                default:                
+                                    printf("\nOpcao nao reconhecida!");
                                 
-                                break
                         }
                 }while((opcao != 4);
                 break
             case 5:   
-                printf("\nObrigada por utilizar o sistema!\n");                
-                printf("\n\nRelatorio atual: \n");                
+                printf("\nObrigada por utilizar o sistema!\n");                              
                 break;            
                 default:                
                     printf("\nOpcao nao reconhecida!");
@@ -174,10 +201,114 @@ void aloca_livro(livro **p, int tamanho){
     exit(1);
 }
 
-void cadastra_livro(livro *p, int tamanho){
+void cadastra_livro(livro *p_livros, int tamanho){
+    printf("\nRegistro do Livro : ");
+    scanf("%d", &(p_livros->reg));
+    printf("\nNome do Livro: ");
+    gets(p_livros->nome);
+    printf("\nAutor do Livro: ");
+    gets(p_livros->nome);
+    for(int i; i < 2;i++){
+        printf("\nStatus do Livro: ");
+        gets(p_livros->status[i].sigla);
+        printf("\nStatus do Livro: ");
+        gets(p_livros->status[i].RA);
+        do{
+            printf("\nMes de Retirada: ");
+            scanf("%d", &(p_livros->status[i].mes_ret));
+
+        }while(p_livros->status[i].mes_ret > 0 && p_livros->status[i].mes_ret < 12);
+        do{
+        
+            if(p_livros->status[i].mes_ret == 2){
+                do{
+                    printf("\nDia de Retirada: ");
+                    scanf("%d", &(p_livros->status[i].dia_ret));
+                }while(p_livros->status[i].dia_ret < 1 && p_livros->status[i].mes_ret > 29);
+            }
+            else if(p_livros->status[i].mes_ret == 4 || p_livros->status[i].mes_ret == 6 || p_livros->status[i].mes_ret == 9 || p_livros->status[i].mes_ret == 11){
+                do{
+                    printf("\nDia de Retirada: ");
+                    scanf("%d", &(p_livros->status[i].dia_ret));
+                }while(p_livros->status[i].dia_ret < 1 || p_livros->status[i].dia_ret > 30);
+            }
+            else{
+                printf("\nDia de Retirada: ");
+                scanf("%d", &(p_livros->status[i].dia_ret));
+            }
+
+        }while(p_livros->status[i].dia_ret < 1 || p_livros->status[i].dia_ret > 31);
+
+        
+        do{
+            printf("\nMes de Retirada: ");
+            scanf("%d", &(p_livros->status[i].mes_dev));
+
+        }while(p_livros->status[i].mes_dev > 0 && p_livros->status[i].mes_dev < 12);
+        do{
+        
+            if(p_livros->status[i].mes_dev == 2){
+                do{
+                    printf("\nDia de Retirada: ");
+                    scanf("%d", &(p_livros->status[i].dia_dev));
+                }while(p_livros->status[i].dia_dev < 1 && p_livros->status[i].mes_dev > 29);
+            }
+            else if(p_livros->status[i].mes_dev == 4 || p_livros->status[i].mes_dev == 6 || p_livros->status[i].mes_dev == 9 || p_livros->status[i].mes_dev == 11){
+                do{
+                    printf("\nDia de Retirada: ");
+                    scanf("%d", &(p_livros->status[i].dia_dev));
+                }while(p_livros->status[i].dia_dev < 1 || p_livros->status[i].dia_dev > 30);
+            }
+            else{
+                printf("\nDia de Retirada: ");
+                scanf("%d", &(p_livros->status[i].dia_dev));
+            }
+
+        }while(p_livros->status[i].dia_dev < 1 || p_livros->status[i].dia_dev > 31);
+    
+    }
+}
+
+void cadastra_aluno(aluno *p_alunos, int tamanho){
+    printf("\nNome do Aluno: ");
+    gets(p_alunos->nome);
+    printf("\nRA do Aluno: ");
+    gets(p_alunos->nome);
+    do{
+    printf("\nNumero de Livros Emprestados: ");
+    scanf("%d", &(p_alunos->emprestado));
+    }while(p_alunos->emprestado < 4);
+    do{
+        printf("\nNumero de Livros Reservados: ");
+        scanf("%d", &(p_alunos->reservado));
+    }while(p_alunos->reservado < 1);
+        for(int i; i < 4;i++){
+            printf("\nStatus do Livro: ");
+            gets(p->tabela[i].sigla);
+             if(p->tabela[i].sigla == 'E' || p->tabela[i].sigla == 'R'){
+                printf("\nRegistro do Livro: ");
+                scanf("%d", &(p->tabela[i].reg));
+            }    
+        }
+    }
+}
+
+void consulta_alunototal(){
 
 }
 
-void cadastra_aluno(aluno *p, int tamanho){
+void consulta_alunoparcial(){
+
+}
+
+void consulta_livrototal(){
+
+}
+
+void consulta_livrostatus(){
+
+}
+
+void consulta_livroautor(){
 
 }
